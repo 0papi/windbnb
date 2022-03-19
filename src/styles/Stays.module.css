@@ -2,6 +2,13 @@
   padding: 2rem 0;
 }
 
+.mainStaysHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5em;
+}
+
 .staysHeader {
   display: flex;
   align-items: center;

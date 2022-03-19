@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase.config";
 import { toast } from "react-toastify";
 import Spinner from "../components/shared/Spinner";
 import StaysDetails from "../components/main/StaysDetails";
+import SearchForm from "../components/main/SearchForm";
 import styles from "../styles/Stays.module.css";
+import logoImg from "../assets/logo.svg";
 
 const Stays = () => {
   const [stays, setStays] = useState(null);
@@ -31,12 +33,52 @@ const Stays = () => {
 
     fetchSnapshot();
   }, []);
+
+  // useEffect(() => {
+
+  // }, [])
+
+  // search query
+  const onSearchStay = async (queryData) => {
+    const staysRef = collection(db, "stays");
+
+    const q = query(
+      staysRef,
+      where("city", "==", queryData.location),
+      where("maxGuests", "==", queryData.guest)
+    );
+
+    // execute query to obtain snapshot
+    const querySnap = await getDocs(q);
+
+    let staysArr = [];
+    querySnap.forEach((doc) => {
+      staysArr.push({
+        id: doc.id,
+        data: doc.data(),
+      });
+    });
+    console.log(staysArr);
+    setStays(staysArr);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    onSearchStay();
+  }, []);
+
   return (
     <div className={`container ${styles.staysWrapper}`}>
+      <div className={styles.mainStaysHeader}>
+        <div className={styles.logo}>
+          <img src={logoImg} alt="logo" />
+        </div>
+        <SearchForm onSearchStay={onSearchStay} />
+      </div>
       <div>
         <div className={styles.staysHeader}>
           <h2>Stays in Finland</h2>
-          <p>{{ stays } - 3}+ stays</p>
+          <p>12+ stays</p>
         </div>
 
         {isLoading ? (
