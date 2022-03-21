@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../firebase.config";
-import { toast } from "react-toastify";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import StaysContext from "../context/StaysContext";
 import Spinner from "../components/shared/Spinner";
 import StaysDetails from "../components/main/StaysDetails";
 import SearchForm from "../components/main/SearchForm";
@@ -9,71 +8,17 @@ import styles from "../styles/Stays.module.css";
 import logoImg from "../assets/logo.svg";
 
 const Stays = () => {
-  const [stays, setStays] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchSnapshot = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "stays"));
-        let staysArr = [];
-        querySnapshot.forEach((doc) => {
-          staysArr.push({
-            id: doc.id,
-            data: doc.data(),
-          });
-        });
-
-        setStays(staysArr);
-        setIsLoading(false);
-      } catch (error) {
-        toast.error("Could not fetch stays");
-      }
-    };
-
-    fetchSnapshot();
-  }, []);
-
-  // useEffect(() => {
-
-  // }, [])
-
-  // search query
-  const onSearchStay = async (queryData) => {
-    const staysRef = collection(db, "stays");
-
-    const q = query(
-      staysRef,
-      where("city", "==", queryData.location),
-      where("maxGuests", "==", queryData.guest)
-    );
-
-    // execute query to obtain snapshot
-    const querySnap = await getDocs(q);
-
-    let staysArr = [];
-    querySnap.forEach((doc) => {
-      staysArr.push({
-        id: doc.id,
-        data: doc.data(),
-      });
-    });
-    console.log(staysArr);
-    setStays(staysArr);
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    onSearchStay();
-  }, []);
+  const { stays, isLoading } = useContext(StaysContext);
 
   return (
     <div className={`container ${styles.staysWrapper}`}>
       <div className={styles.mainStaysHeader}>
         <div className={styles.logo}>
-          <img src={logoImg} alt="logo" />
+          <Link to="/">
+            <img src={logoImg} alt="logo" />
+          </Link>
         </div>
-        <SearchForm onSearchStay={onSearchStay} />
+        <SearchForm />
       </div>
       <div>
         <div className={styles.staysHeader}>

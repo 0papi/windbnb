@@ -1,12 +1,14 @@
-import { useState } from "react";
-
+import { useState, useContext } from "react";
+import StaysContext from "../../context/StaysContext";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import Modal from "../shared/Modal";
 import styles from "../../styles/SearchForm.module.css";
 import classes from "../../styles/Modal.module.css";
+import { toast } from "react-toastify";
 
-const SearchForm = (props) => {
+const SearchForm = () => {
+  const { onSearchStay } = useContext(StaysContext);
   const locationData = [
     {
       id: 1,
@@ -25,7 +27,6 @@ const SearchForm = (props) => {
       location: "Vaasa",
     },
   ];
-  const [button, setButton] = useState(false);
   const [locationInput, setLocationInput] = useState("Add Location");
   const [guestInput, setGuestInput] = useState(0);
   const [showModal, setShowModal] = useState(false);
@@ -41,10 +42,6 @@ const SearchForm = (props) => {
   const onShowGuestModal = () => {
     setGuestModal((prevState) => !prevState);
     setShowModal(false);
-  };
-
-  const onExtendButton = () => {
-    setButton((prevState) => !prevState);
   };
 
   const incrementChild = () => {
@@ -91,12 +88,21 @@ const SearchForm = (props) => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    const queryData = {
-      location: locationInput,
-      guest: guestInput,
-    };
+    if (locationInput === "" || guestInput <= 0) {
+      toast.error("Please provide information for filtering stays");
+      return;
+    } else {
+      const queryData = {
+        location: locationInput,
+        guest: guestInput,
+      };
 
-    props.onSearchStay(queryData);
+      onSearchStay(queryData);
+      setGuestModal(false);
+      setGuestModal(false);
+      setLocationInput("Add Location");
+      setGuestInput(0);
+    }
   };
   return (
     <div>
@@ -174,19 +180,11 @@ const SearchForm = (props) => {
           </div>
 
           {/* search form button for submitting form data for filtering stays in the main stays component */}
-          <button
-            type="submit"
-            className={button ? `${styles.form__btn}` : `${styles.icon__btn}`}
-            onClick={onExtendButton}
-          >
-            {button ? (
-              <div className={styles.mainForm}>
-                <BiSearchAlt2 className={styles.form__btn__icon} />
-                <p>Search</p>
-              </div>
-            ) : (
+          <button type="submit" className={styles.form__btn}>
+            <div className={styles.mainForm}>
               <BiSearchAlt2 className={styles.form__btn__icon} />
-            )}
+              <p>Search</p>
+            </div>
           </button>
         </form>
       </div>

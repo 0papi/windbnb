@@ -52,22 +52,12 @@
   font-weight: 700;
 }
 
+.form__btn:active {
+  transform: scale(0.7);
+}
+
 .mainForm {
   display: flex;
   align-items: center;
   gap: 10px;
-}
-
-.icon__btn {
-  background-color: var(--clr-red-100);
-  color: var(--clr-white-100);
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 50%;
-  font-size: 14px;
-  font-weight: 700;
 }
