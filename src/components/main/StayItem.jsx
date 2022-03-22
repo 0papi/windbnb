@@ -3,6 +3,7 @@ import { AiFillStar } from "react-icons/ai";
 import StayReview from "./StayReview";
 import Badge from "../shared/Badge";
 import styles from "../../styles/StayItem.module.css";
+// eslint-disable-next-line
 import PreviousReviews from "./PreviousReviews";
 
 const StayItem = ({ stay }) => {
