@@ -82,7 +82,6 @@ const SearchForm = () => {
     );
 
     const locationFound = locationData[locationIndex];
-    console.log(locationFound);
     setLocationInput(locationFound.location);
   };
 

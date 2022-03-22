@@ -12,7 +12,8 @@
 .staysHeader {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /* justify-content: space-between;s */
+  gap: 60rem;
   margin-bottom: 32px;
 }
 
@@ -23,6 +24,16 @@
 }
 
 @media screen and (max-width: 50em) {
+  .mainStaysHeader {
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 2rem;
+  }
+  .staysHeader {
+    gap: 10rem;
+    justify-content: none;
+  }
   .stays {
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(1, 1fr);
