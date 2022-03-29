@@ -66,4 +66,8 @@
   .form {
     gap: 0.5rem;
   }
+
+  .mainForm p {
+    display: none;
+  }
 }
