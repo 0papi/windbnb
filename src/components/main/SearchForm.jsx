@@ -104,8 +104,8 @@ const SearchForm = () => {
     }
   };
   return (
-    <div>
-      <div className={styles.searchFormWrapper}>
+    <>
+      <div className={styles.formWrapper}>
         <form onSubmit={onFormSubmit} className={styles.form}>
           {/* location input part of the search input for changing location to what the user prefers. Utilizes a modal to show the other location options */}
           <div>
@@ -187,7 +187,7 @@ const SearchForm = () => {
           </button>
         </form>
       </div>
-    </div>
+    </>
   );
 };
 
